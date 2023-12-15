@@ -7,7 +7,7 @@ import swaggerDocument from './swagger.json' assert { type: 'json' }
 import trainRoute from './routes/trainRoute.js'
 import userRoute from './routes/userRoute.js'
 import authRoute from './routes/authRoute.js'
-import trainStationRouter from './controllers/trainStationRouter.js';
+import trainStationRouter from './routes/trainStationRouter.js';
 
 
 const app = express()
@@ -29,7 +29,7 @@ app.use(cors());
 app.use('/api/train', trainRoute);
 app.use('/api/users', userRoute);
 app.use('/api/auth', authRoute);
-app.use('/api/trainstations', trainStation)
+app.use('/api/trainstations', trainStationRouter)
 
 app.use((req, res) => {
     res.status(404).json({ message: `API not found at ${req.url}` })
