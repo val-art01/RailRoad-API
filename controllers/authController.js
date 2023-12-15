@@ -1,13 +1,20 @@
-import User from '../model/User.js';
+import User from './../models/User.js';
+import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto' 
 
 export const registerUser = async (req, res) => {
-    const { username, password } = req.body;
+    const { pseudo, email, password } = req.body;
 
     try {
+        // Generate a value for the 'iv' field
+        const ivValue = crypto.randomBytes(16).toString('hex');
+        const hashedPassword = await bcrypt.hash(password, 10); // bcrypt pour le hachage
         const newUser = new User({
-            username,
-            password: password
+            pseudo,
+            email,
+            password: hashedPassword,
+            iv: ivValue
         });
 
         const savedUser = await newUser.save();
@@ -19,14 +26,16 @@ export const registerUser = async (req, res) => {
 
 export const loginUser = async (req, res) => {
     try {
-        const { username, password } = req.body;
-        const user = await User.findOne({ username: username });
+        const { email, password } = req.body;
+        const user = await User.findOne({ email: email });
 
         if (!user) {
             return res.status(401).json('Wrong user name');
         }
 
-        if (user.password !== password) {
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+
+        if (!isPasswordValid) {
             res.status(401).json('Wrong password');
         }
 
@@ -40,7 +49,7 @@ export const loginUser = async (req, res) => {
         );
 
         const { password: _, ...others } = user._doc;
-        res.status(200).json({ ...others, accessToken });
+        return res.status(200).json({ ...others, accessToken });
     } catch (err) {
         res.status(500).json({ response: 'Internal server error: ' + err.message });
     }
