@@ -10,4 +10,4 @@ const TrainSchema = new mongoose.Schema(
     { timestamps: true }
 )
 
-export default mongoose.model('User', TrainSchema)
+export default mongoose.model('Train', TrainSchema)
