@@ -1,4 +1,3 @@
-import express from 'express'
 import User from '../models/User.js'
 
 // Get all users
@@ -30,12 +29,12 @@ export const getUserById = async (req, res) => {
 // Update a user
 export const updateUser = async (req, res) => {
     const { id } = req.params
-    const { username, email, password } = req.body
+    const { pseudo, email, password } = req.body
 
     try {
         const updatedUser = await User.findByIdAndUpdate(
             id,
-            { username, email, password },
+            { pseudo, email, password },
             { new: true }
         )
 
