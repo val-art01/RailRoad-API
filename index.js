@@ -4,7 +4,7 @@ import mongoose from 'mongoose'
 import { config } from 'dotenv'
 import swaggerUi from 'swagger-ui-express'
 import swaggerDocument from './swagger.json' assert { type: 'json' }
-// import trainRoute from './routes/trainRoute.js'
+import trainRoute from './routes/trainRoute.js'
 import userRoute from './routes/userRoute.js'
 import authRoute from './routes/authRoute.js'
 // import trainStationRouter from './routes/trainStationRouter.js';
@@ -29,7 +29,7 @@ app.use(express.urlencoded({extended: true}))
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
 app.use(cors());
-// app.use('/api/train', trainRoute);
+app.use('/api/train', trainRoute);
 app.use('/api/users', userRoute);
 app.use('/api/auth', authRoute);
 // app.use('/api/trainstations', trainStationRouter)
