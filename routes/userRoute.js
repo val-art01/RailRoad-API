@@ -17,7 +17,7 @@ router.put('/:id', verifyTokenAndAuthorization, updateUser);
 router.put('/:id/admin', verifyTokenAndAdmin, setAdmin);
 
 // Set or unset a user as worker
-router.put('/:id/user', setWorker);
+router.put('/:id/user', verifyTokenAndAdmin, setWorker);
 
 // Delete a user by id
 router.delete('/:id', verifyTokenAndAuthorization, deleteUser);
