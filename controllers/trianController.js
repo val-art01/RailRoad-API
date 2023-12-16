@@ -106,7 +106,7 @@ export const deleteTrain = async (req, res) => {
     }
 };
 
-// Function to sort trains by date, departure station and arrival station
+// function to sort trains by date, departure station and arrival station
 export const sortTrains =  (trains, limit = 10) =>{
     return trains
         .sort((a, b) =>{
