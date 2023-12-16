@@ -1,23 +1,22 @@
-
-import Train from '../model/Train.js';
-import Trainstation from '../model/TrainStation.js';
+import Train from '../models/Train.js';
+// import Trainstation from '../model/TrainStation.js';
 
 // Create a new train
 export const createTrain = async (req, res) => {
     const { name, start_station, end_station, time_departure } = req.body;
     const train = new Train({ name, start_station, end_station, time_departure });
 
-    await Trainstation.findOneAndUpdate(
-        { name: start_station },
-        { $push: { trains: train.id } },
-        { new: true }
-    );
+    // await Trainstation.findOneAndUpdate(
+    //     { name: start_station },
+    //     { $push: { trains: train.id } },
+    //     { new: true }
+    // );
 
-    await Trainstation.findOneAndUpdate(
-        { name: end_station },
-        { $push: { trains: train.id } },
-        { new: true }
-    );
+    // await Trainstation.findOneAndUpdate(
+    //     { name: end_station },
+    //     { $push: { trains: train.id } },
+    //     { new: true }
+    // );
 
     train.save()
         .then(data => {
@@ -87,8 +86,8 @@ export const deleteTrain = async (req, res) => {
 
     try {
         const train = await Train.findById(id);
-
-        if (train.trains.length !== 0) {
+        
+        if (!train) {
             return res.status(400).json({ error: 'There are still trains scheduled on this station. Please delete them before' });
         }
 
