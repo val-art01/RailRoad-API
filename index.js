@@ -44,4 +44,4 @@ app.listen(8080, () => {
     console.log(`Server started on port ${PORT}. API Documentation: http://localhost:${PORT}/api-docs/`)
 })
 
-// export default app
+export default app

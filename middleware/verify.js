@@ -30,12 +30,16 @@ const verifyTokenAndAuthorization = (req, res, next) => {
         try {
             // Check if the user is an admin
             const isAdmin = req.user.role === 'admin';
+            console.log(`isAdmin: ${isAdmin}`)
             // Check if the user is an employee
             const isEmployee = req.user.role === 'customer';
+            console.log(`isEmployee: ${isEmployee}`)
             // Check if the user has the same ID as the one specified in the route
             const isSameUserId = req.params.id === req.user.id;
+            console.log(`isSameUserId: ${isSameUserId}`)
             // Check if the user can access another user's information
-            const canAccessUserInfo = (isAdmin || isEmployee) && isSameUserId;
+            const canAccessUserInfo = (isAdmin || isEmployee) || isSameUserId;
+            console.log(`canAccessUserInfo: ${canAccessUserInfo}`)
             // Check various constraints
             if (req.method === 'GET' && !canAccessUserInfo) {
                 res.status(403).json({ error: "Permission denied" });
