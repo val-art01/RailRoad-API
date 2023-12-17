@@ -1,31 +1,34 @@
 import Train from '../models/Train.js';
-// import Trainstation from '../model/TrainStation.js';
+import Trainstation from '../models/TrainStation.js';
 
 // Create a new train
 export const createTrain = async (req, res) => {
     const { name, start_station, end_station, time_departure } = req.body;
     const train = new Train({ name, start_station, end_station, time_departure });
+    try{
 
-    // await Trainstation.findOneAndUpdate(
-    //     { name: start_station },
-    //     { $push: { trains: train.id } },
-    //     { new: true }
-    // );
+        if (new Date(time_departure) < new Date()) {
+            res.status(400).json({ error: { message: 'The departure date must be in the future.' } });
+        }
 
-    // await Trainstation.findOneAndUpdate(
-    //     { name: end_station },
-    //     { $push: { trains: train.id } },
-    //     { new: true }
-    // );
+        await Trainstation.findOneAndUpdate(
+            { name: start_station },
+            { $push: { trains: train.id } },
+            { new: true }
+        );
 
-    train.save()
-        .then(data => {
-            res.status(200).json(data);
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({ response: 'Internal server error' });
-        });
+        await Trainstation.findOneAndUpdate(
+            { name: end_station },
+            { $push: { trains: train.id } },
+            { new: true }
+        );
+
+        const savedTrain = await train.save();
+        res.status(200).json(savedTrain);
+    }catch(err){
+        console.log(err);
+        res.status(500).json({ response: 'Internal server error' });
+    }
 };
 
 // Get all trains
@@ -90,7 +93,7 @@ export const deleteTrain = async (req, res) => {
         const train = await Train.findById(id);
         
         if (!train) {
-            return res.status(400).json({ error: 'There are still trains scheduled on this station. Please delete them before' });
+            return res.status(404).json({ error: 'There are still trains scheduled on this station. Please delete them before' });
         }
 
         const deletedTrain = await Train.findByIdAndDelete(id);

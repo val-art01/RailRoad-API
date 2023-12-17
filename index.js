@@ -8,6 +8,7 @@ import trainRoute from './routes/trainRoute.js'
 import userRoute from './routes/userRoute.js'
 import authRoute from './routes/authRoute.js'
 import trainStationRouter from './routes/trainstationRoute.js';
+import ticketRoutes from './routes/ticketRoute.js';
 
 const app = express()
 const PORT = process.env.PORT
@@ -32,6 +33,8 @@ app.use('/api/train', trainRoute);
 app.use('/api/users', userRoute);
 app.use('/api/auth', authRoute);
 app.use('/api/stations', trainStationRouter)
+app.use('/api/tickets', ticketRoutes);
+
 
 app.use((req, res) => {
     res.status(404).json({ message: `API not found at ${req.url}` })

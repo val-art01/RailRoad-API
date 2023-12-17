@@ -1,1 +1,427 @@
-{}
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "RailRoad API",
+      "description": "API for managing train stations and bookings",
+      "version": "1.0.0"
+    },
+    "paths": {
+        "/api/users": {
+        "get": {
+            "summary": "Get all users",
+            "description": "Retrieve a list of all users.",
+            "responses": {
+            "200": {
+                "description": "Successful response"
+            }
+            }
+        },
+        "post": {
+            "summary": "Create a new user",
+            "description": "Create a new user.",
+            "requestBody": {
+            "required": true,
+            "content": {
+                "application/json": {
+                "example": {
+                    "pseudo": "NewUser",
+                    "email": "new.user@example.com",
+                    "password": "password123"
+                }
+                }
+            }
+            },
+            "responses": {
+            "201": {
+                "description": "Successful response"
+            }
+            }
+        }
+        },
+        "/api/users/{id}": {
+        "get": {
+            "summary": "Get a specific user by ID",
+            "description": "Retrieve information about a specific user.",
+            "parameters": [
+            {
+                "in": "path",
+                "name": "id",
+                "required": true,
+                "schema": {
+                "type": "string"
+                }
+            }
+            ],
+            "responses": {
+            "200": {
+                "description": "Successful response"
+            }
+            }
+        },
+        "put": {
+            "summary": "Update a user",
+            "description": "Update information about a specific user.",
+            "parameters": [
+            {
+                "in": "path",
+                "name": "id",
+                "required": true,
+                "schema": {
+                "type": "string"
+                }
+            }
+            ],
+            "requestBody": {
+            "required": true,
+            "content": {
+                "application/json": {
+                "example": {
+                    "pseudo": "UpdatedUser",
+                    "email": "updated.user@example.com",
+                    "password": "newpassword123"
+                }
+                }
+            }
+            },
+            "responses": {
+            "200": {
+                "description": "Successful response"
+            }
+            }
+        },
+        "delete": {
+            "summary": "Delete a user",
+            "description": "Delete a specific user by ID.",
+            "parameters": [
+            {
+                "in": "path",
+                "name": "id",
+                "required": true,
+                "schema": {
+                "type": "string"
+                }
+            }
+            ],
+            "responses": {
+            "200": {
+                "description": "Successful response"
+            }
+            }
+        }
+        },
+
+        "/api/auth/register": {
+            "post": {
+                "summary": "Register a new user",
+                "description": "Register a new user.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "pseudo": "NewUser",
+                                "email": "new.user@example.com",
+                                "password": "password123"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                "201": {
+                    "description": "Successful response"
+                }
+                }
+            }
+        },
+        "/api/auth/login": {
+            "post": {
+                "summary": "Login",
+                "description": "Authenticate a user and generate a JWT token.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "email": "user@example.com",
+                                "password": "password123"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/api/trains": {
+            "get": {
+                "summary": "Get all trains",
+                "description": "Retrieve a list of all trains.",
+                "responses": {
+                "200": {
+                    "description": "Successful response"
+                }
+                }
+            },
+            "post": {
+                "summary": "Create a new train",
+                "description": "Create a new train.",
+                "requestBody": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "example": {
+                            "name": "Express 123",
+                            "start_station": "Station A",
+                            "end_station": "Station B",
+                            "time_departure": "2023-12-31T12:00:00.000Z"
+                        }
+                    }
+                }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/api/trains/{id}": {
+            "get": {
+                "summary": "Get a specific train by ID",
+                "description": "Retrieve information about a specific train.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                        "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update a train",
+                "description": "Update information about a specific train.",
+                "parameters": [
+                {
+                    "in": "path",
+                    "name": "id",
+                    "required": true,
+                    "schema": {
+                    "type": "string"
+                    }
+                }
+                ],
+                "requestBody": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                    "example": {
+                        "name": "Updated Express 123",
+                        "start_station": "Station C",
+                        "end_station": "Station D",
+                        "time_departure": "2023-12-31T14:00:00.000Z"
+                    }
+                    }
+                }
+                },
+                "responses": {
+                "200": {
+                    "description": "Successful response"
+                }
+                }
+            },
+            "delete": {
+                "summary": "Delete a train",
+                "description": "Delete a specific train by ID.",
+                "parameters": [
+                {
+                    "in": "path",
+                    "name": "id",
+                    "required": true,
+                    "schema": {
+                    "type": "string"
+                    }
+                }
+                ],
+                "responses": {
+                "200": {
+                    "description": "Successful response"
+                }
+                }
+            }
+        },     
+        "/api/stations": {
+            "get": {
+                "summary": "Get all train stations",
+                "description": "Retrieve a list of all train stations.",
+                "responses": {
+                "200": {
+                    "description": "Successful response"
+                }
+                }
+            },
+            "post": {
+                "summary": "Create a new train station",
+                "description": "Create a new train station.",
+                "requestBody": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                    "example": {
+                        "name": "Station A",
+                        "open_hour": "08:00",
+                        "close_hour": "20:00",
+                        "img": "station_image.jpg"
+                    }
+                    }
+                }
+                },
+                "responses": {
+                "201": {
+                    "description": "Successful response"
+                }
+                }
+            }
+        },
+        "/api/stations/{id}": {
+            "get": {
+                "summary": "Get a specific train station by ID",
+                "description": "Retrieve information about a specific train station.",
+                "parameters": [
+                {
+                    "in": "path",
+                    "name": "id",
+                    "required": true,
+                    "schema": {
+                    "type": "string"
+                    }
+                }
+                ],
+                "responses": {
+                "200": {
+                    "description": "Successful response"
+                }
+                }
+            },
+            "put": {
+                "summary": "Update a train station",
+                "description": "Update information about a specific train station.",
+                "parameters": [
+                {
+                    "in": "path",
+                    "name": "id",
+                    "required": true,
+                    "schema": {
+                    "type": "string"
+                    }
+                }
+                ],
+                "requestBody": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                    "example": {
+                        "name": "Updated Station A",
+                        "open_hour": "09:00",
+                        "close_hour": "21:00",
+                        "img": "updated_station_image.jpg"
+                    }
+                    }
+                }
+                },
+                "responses": {
+                "200": {
+                    "description": "Successful response"
+                }
+                }
+            },
+            "delete": {
+                "summary": "Delete a train station",
+                "description": "Delete a specific train station by ID.",
+                "parameters": [
+                {
+                    "in": "path",
+                    "name": "id",
+                    "required": true,
+                    "schema": {
+                    "type": "string"
+                    }
+                }
+                ],
+                "responses": {
+                "200": {
+                    "description": "Successful response"
+                }
+                }
+            }
+        },
+        "/api/stations/sort": {
+            "get": {
+                "summary": "Get all train stations sorted by name",
+                "description": "Retrieve a list of all train stations sorted by name.",
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },      
+        "/api/tickets": {
+            "post": {
+                "summary": "Book a ticket",
+                "description": "Book a ticket for a specific train.",
+                "requestBody": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                    "example": {
+                        "train_id": "123",
+                        "user_id": "456"
+                    }
+                    }
+                }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/api/tickets/{id}/validate": {
+            "put": {
+                "summary": "Validate a ticket",
+                "description": "Validate a specific ticket by ID.",
+                "parameters": [
+                {
+                    "in": "path",
+                    "name": "id",
+                    "required": true,
+                    "schema": {
+                    "type": "string"
+                    }
+                }
+                ],
+                "responses": {
+                "200": {
+                    "description": "Successful response"
+                }
+                }
+            }
+        }              
+    }
+  }
+  
