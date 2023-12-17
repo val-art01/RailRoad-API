@@ -8,7 +8,7 @@ export const createTrain = async (req, res) => {
     try{
 
         if (new Date(time_departure) < new Date()) {
-            res.status(400).json({ error: { message: 'The departure date must be in the future.' } });
+            return res.status(400).json({ message: 'The departure date must be in the future.' });
         }
 
         await Trainstation.findOneAndUpdate(
@@ -73,6 +73,10 @@ export const updateTrain = async (req, res) => {
             { name, start_station, end_station, time_departure },
             { new: true }
         );
+
+        if (new Date(time_departure) < new Date()) {
+            return res.status(400).json({ message: 'The departure date must be in the future.' });
+        }
 
         if (!updatedTrain) {
             return res.status(404).json({ error: 'Train not found' });
