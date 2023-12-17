@@ -1,11 +1,21 @@
-import TrainStation from './../model/TrainStation.js';
+import {handleFileUpload} from './uploads.js';
+import TrainStation from './../models/TrainStation.js';
 
 // Create a new trainstation
 export const createTrainStation = async (req, res) => {
-    const { name, open_hour, close_hour, img, trains } = req.body;
-    const trainStation = new TrainStation({ name, open_hour, close_hour, img, trains });
 
-    try {
+    try {        
+        // const imageBuffer = await handleFileUpload(req.file);
+        // if(!imageBuffer) return res.status(400).json({error: "error uploading image"})
+
+        const { name, open_hour, close_hour, img, trains } = req.body;   
+        const trainStation = new TrainStation({ 
+            name, 
+            open_hour, 
+            close_hour, 
+            img, 
+            trains 
+        });
         const savedTrainStation = await trainStation.save();
         res.status(200).json(savedTrainStation);
     } catch (err) {
@@ -89,3 +99,14 @@ export const deleteTrainStation = async (req, res) => {
         res.status(500).json({ response: 'Internal server error' });
     }
 };
+
+// Get all trainstations sorted by name
+export const getAllTrainStationSortedByName = async (req, res) => {
+    try{
+        const trainStations = await TrainStation.find().sort({name: 1});
+        res.status(200).json(trainStations);
+    }catch (err) {
+        console.error('Error getting train stations', err);
+        res.status(500).json({ response: 'Internal server error' });
+    }
+}
