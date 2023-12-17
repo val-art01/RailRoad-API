@@ -1,19 +1,17 @@
 import Ticket from "../models/Ticket.js";
-import Joi from "joi";
 
 // Create a ticket (reservation)
 export const bookTicket = async (req, res) => {
     const{userId, trainId} = req.body
-
     try {
-        // Checks whether the ticket already exists for this user and this train
+        //Checks whether the ticket already exists for this user and this train
         const existingTicket = await Ticket.findOne({user: userId, train: trainId})
         if (existingTicket) {
             return res.status(400).json({ error: 'Ticket already booked for this user and train' });
         }
 
         // create ticket
-        const ticket = new Ticket({ user: userId, train: trainId });
+        const ticket = new Ticket({ userId: userId, trainId: trainId });
         const bookedTicket = await ticket.save();
         res.status(200).json(bookedTicket);
     } catch (err) {
@@ -26,7 +24,7 @@ export const bookTicket = async (req, res) => {
 // Validate a ticket
 export const validateTicket = async (req, res) =>{
     const {ticketId} = req.params;
-
+    console.log(`ticketId ${ticketId}`)
     try {
         const ticket = Ticket.findById(ticketId);
         if(!ticket){
